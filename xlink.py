@@ -51,26 +51,23 @@ def getReplacementStr(headers):
     for example:
     
     i'm taking notes oh heres the slides: 
-    #xlink _00_Introduction Class/Slides/NAME Slide_conveNtion:.pdf|
+    #xlink _00_Introduction:Class/Slides/NAME Slide_conveNtion:.pdf|
     # you can continue notes lah dee dah    
     '''
     #btw "#xlink " and "|" 
     argmts = headers[1].split("|")[0]
+    
+    if (len(argmts.split(":")) < 3):
+        print(f"<< WARNING: ARGMS MISSING ({len(argmts)} < 3) | argmts = {argmts}")
+    elif (len(argmts.split(":")) > 3):
+        print(f"<< WARNING: EXTRA ARGMS ({len(argmts)} > 3) | argmts = {argmts}")
 
     #entry 1
-    fileNameDescr = ""
-    fileNameSplit = argmts.split(" ")[:-1]
-
-    for i in fileNameSplit:
-        fileNameDescr += i + " "
-
-    #remove leading " "
-    fileNameDescr = fileNameDescr[0:-1]
-
+    fileNameDescr = argmts.split(":")[0]
     #entry 2
-    left = argmts.split(":")[0].split(" ")[-1:][0]
+    left = argmts.split(":")[1]
     #entry 3
-    right = argmts.split(":")[1]
+    right = argmts.split(":")[2]
 
     #annotating to user
     print(f" >> replacing \"#xlink {argmts}|\" with \"![link: {fileNameDescr}](../assets/{left}{fileNameDescr}{right})\"") #debug
